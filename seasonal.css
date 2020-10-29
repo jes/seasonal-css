@@ -2,3 +2,9 @@ body {
     background-color: var(--seasonal-bg);
     color: var(--seasonal-fg);
 }
+a {
+    color: var(--seasonal-hl);
+}
+a:hover {
+    color: var(--seasonal-fg);
+}
