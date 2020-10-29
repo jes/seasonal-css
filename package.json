@@ -1,0 +1,15 @@
+{
+    "name": "seasonal-css",
+    "version": "0.0.1",
+    "description": "Seasonal CSS",
+    "author": "James Stanley <james@incoherency.co.uk>",
+    "license": "Unlicense",
+    "repository": "github:jes/seasonal-css",
+    "main": "main.js",
+    "scripts": {
+        "start": "node main.js"
+    },
+    "dependencies": {
+        "express": "^4.16.1"
+    }
+}

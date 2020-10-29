@@ -1,0 +1,4 @@
+body {
+    background-color: var(--seasonal-bg);
+    color: var(--seasonal-fg);
+}
