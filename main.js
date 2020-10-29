@@ -7,7 +7,7 @@ let seasonal_css_head = '';
 let seasonal_css = '';
 
 const app = express();
-app.get('/', (req,res) => {
+app.get('/seasonal.css', (req,res) => {
     res.setHeader('Content-Type', 'text/css');
     res.send(generate_css(req.query.day));
 });
