@@ -3,7 +3,6 @@
 const express = require('express');
 const fs = require('fs');
 
-let seasonal_css_head = '';
 let seasonal_css = '';
 
 const app = express();
@@ -12,11 +11,6 @@ app.get('/seasonal.css', (req,res) => {
     res.send(generate_css(req.query.day));
 });
 
-fs.readFile('seasonal.css.head', 'utf8', function (err,data) {
-    if (err)
-        return console.log(err);
-    seasonal_css_head = data;
-});
 fs.readFile('seasonal.css', 'utf8', function (err,data) {
     if (err)
         return console.log(err);

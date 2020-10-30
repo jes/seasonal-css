@@ -1,4 +1,0 @@
-:root {
-    --seasonal-bg: __BG_COLOUR__;
-    --seasonal-fg: __FG_COLOUR__;
-}
