@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Seasonal.css</title>
-<link rel="stylesheet" type="text/css" href="seasonal.css">
+<link id="css" rel="stylesheet" type="text/css" href="seasonal.css">
 <style type="text/css">
 html, body {
     margin: 0;
@@ -39,6 +39,38 @@ name {
     font-style: italic;
     color: var(--seasonal-hl);
 }
+
+/* based on the boootstrap button */
+.btn-primary, .btn-primary:active, .btn-primary:focus {
+    color: var(--seasonal-bg);
+    background-color: var(--seasonal-hl);
+    border-color: var(--seasonal-hldark);
+}
+.btn-primary:hover {
+    color: var(--seasonal-bg);
+    filter: brightness(120%);
+    background-color: var(--seasonal-hl);
+    border-color: var(--seasonal-hldark);
+}
+.btn {
+	display: inline-block;
+	padding: 6px 12px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
 </style>
 </head>
 <body>
@@ -50,6 +82,8 @@ name {
 <div class="content">
     <p><name>Seasonal.css</name> calculates a seasonal colour scheme based on the day
     of the year.</p>
+
+    <button class="btn btn-primary" id="random-day">Try a random day</button> <i><span id="date"></span></i>
 
     <p>Use it yourself:
     <div class="code">
@@ -81,6 +115,21 @@ name {
     <p><name>Seasonal.css</name> is created by <a href="https://incoherency.co.uk/">James Stanley</a>,
     taking inspiration from <a href="https://v6.robweychert.com/blog/2019/12/dynamic-color-javascript-hsl/">Rob Weychert</a>.</p>
 </div>
+
+<script type="text/javascript">
+document.getElementById('random-day').onclick = function() {
+    let day = Math.round(Math.random() * 366);
+    document.getElementById('css').href="seasonal.css?day=" + day;
+
+    console.log(day);
+
+    let date = new Date();
+    date.setMonth(0);
+    date.setDate(day);
+    let month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    document.getElementById('date').innerHTML = (date.getDate()+1) + " " + month_name[date.getMonth()];
+};
+</script>
 
 </body>
 </html>
