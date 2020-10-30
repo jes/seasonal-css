@@ -3,12 +3,29 @@ body {
     color: var(--seasonal-fg);
 }
 a {
-    color: var(--seasonal-hl);
+    color: var(--seasonal-fg);
     text-decoration: none;
+    border-bottom: 2px solid var(--seasonal-hl);
 }
 a:hover {
     color: var(--seasonal-hl);
+    text-decoration: none;
+    border-bottom: 2px solid var(--seasonal-hl);
 }
 hr {
     border-top: 1px solid var(--seasonal-hl);
+}
+
+.darkbg {
+    background-color: var(--seasonal-bgdark);
+}
+
+.nav a {
+    color: var(--seasonal-hldark);
+    text-decoration: none;
+    border: none;
+}
+.nav a:hover {
+    color: var(--seasonal-hl);
+    text-decoration: none;
 }

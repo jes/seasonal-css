@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<title>Seasonal.css</title>
+<link rel="stylesheet" type="text/css" href="seasonal.css">
+<style type="text/css">
+html, body {
+    margin: 0;
+    padding: 0;
+    font-size: 1.1rem;
+    width: 100%;
+}
+.code {
+    font-family: monospace;
+    background-color: var(--seasonal-bgdark);
+    border: solid 2px var(--seasonal-hl);
+    border-radius: 3px;
+    padding: 8px;
+    margin: 20px;
+}
+tt {
+    color: var(--seasonal-hl);
+    background-color: var(--seasonal-bgdark);
+}
+.header {
+    width: 100%;
+    border-bottom: solid 4px var(--seasonal-hl);
+}
+.header-inner, .content {
+    max-width: 900px;
+    margin: auto;
+}
+.content {
+    max-width: 900px;
+    margin:auto;
+}
+name {
+    font-style: italic;
+    color: var(--seasonal-hl);
+}
+</style>
+</head>
+<body>
+
+<div class="header darkbg"><div class="header-inner">
+    <h1><name>Seasonal.css</name></h1>
+</div></div>
+
+<div class="content">
+    <p><name>Seasonal.css</name> calculates a seasonal colour scheme based on the day
+    of the year.</p>
+
+    <p>Use it yourself:
+    <div class="code">
+        &lt;link rel="stylesheet" type="text/css" href="https://seasonal-css.incoherency.co.uk/seasonal.css"&gt;
+    </div>
+    </p>
+
+    <p>You get:
+    <ul>
+    <li>different theme colour every day of the year</li>
+    <li>simple styles that aim to "do the right thing" out of the box</li>
+    <li>CSS variables that you can use in your own rules</li>
+    </ul>
+    </p>
+
+    <p>Read the CSS to learn more: <a href="/seasonal.css">/seasonal.css</a>.</p>
+
+    <p>Fetch the CSS with <tt>?day=123</tt> to request the theme for a specific day of the year.
+    This is useful to test how your page is going to look.</p>
+
+    <p>Fetch the CSS with <tt>?varsonly=1</tt> to get the CSS variables without any of the
+    styles. This is useful if you want to use the <name>Seasonal.css</name> colour scheme
+    but don't want the default styles.</p>
+
+    <p>Please contribute changes and bug reports on <a href="https://github.cmo/jes/seasonal-css">https://github.com/jes/seasonal-css</a>.</p>
+
+    <hr>
+
+    <p><name>Seasonal.css</name> is created by <a href="https://incoherency.co.uk/">James Stanley</a>,
+    taking inspiration from <a href="https://v6.robweychert.com/blog/2019/12/dynamic-color-javascript-hsl/">Rob Weychert</a>.</p>
+</div>
+
+</body>
+</html>
