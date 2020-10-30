@@ -17,38 +17,6 @@ fs.readFile('seasonal.css', 'utf8', function (err,data) {
     seasonal_css = data;
 });
 
-// colours are in HSL with range [0..359, 0..100, 0..100]
-let seasons = [
-    {
-        name: 'winter',
-        peakday: 14,
-        bg: [240, 16, 92],
-        fg: [4, 8, 39],
-        hl: [221, 43, 27]
-    },
-    {
-        name: 'spring',
-        peakday: 104,
-        bg: [59, 100, 92],
-        fg: [93, 89, 36],
-        hl: [341, 65, 68]
-    },
-    {
-        name: 'summer',
-        peakday: 194,
-        bg: [187, 100, 89],
-        fg: [50, 88, 40],
-        hl: [31, 100, 51]
-    },
-    {
-        name: 'autumn',
-        peakday: 284,
-        bg: [140, 79, 96],
-        fg: [15, 100, 29],
-        hl: [26, 97, 49],
-    }
-];
-
 // https://stackoverflow.com/a/8619946
 function day_of_year() {
     var now = new Date();
@@ -82,6 +50,30 @@ function blend(hsl1, hsl2, k) {
     ];
 }
 
+// https://v6.robweychert.com/blog/2019/12/dynamic-color-javascript-hsl/
+let keyframes = [
+  //  day    hue     sat      hlsat
+  [   0,     270,    0.10,    1.00  ],
+  [  31,     240,    0.11,    1.00  ],
+  [  60,     210,    0.20,    0.85  ],
+  [  91,     180,    0.22,    0.75  ],
+  [ 120,     150,    0.26,    1.00  ],
+  [ 151,     120,    0.20,    1.00  ],
+  [ 181,      90,    0.28,    1.00  ],
+  [ 212,      60,    0.28,    0.70  ],
+  [ 243,      30,    0.32,    0.85  ],
+  [ 273,       0,    0.18,    0.75  ],
+  [ 304,     -30,    0.14,    0.75  ],
+  [ 334,     -60,    0.10,    0.60  ],
+  [ 365,     -90,    0.10,    1.00  ]
+];
+
+// lerp from a to b by k amount. k=0 to 1
+// k=0 gives a, k=1 gives b
+function lerp(a, b, k) {
+    return a*(1-k) + b*k;
+}
+
 // TODO: take optional date, latitude, etc. parameters
 // TODO: handle 366-day years
 function generate_css(requested_day) {
@@ -93,37 +85,27 @@ function generate_css(requested_day) {
         day = requested_day;
     }
 
-    season1 = seasons[seasons.length-1];
-    season2 = seasons[0];
-    for (let i = 0; i < seasons.length; i++) {
-        if (day < seasons[i].peakday) {
-            season1 = seasons[(i-1+seasons.length)%seasons.length];
-            season2 = seasons[i];
+    //day = 210;
+
+    let hue, hlhue, sat, hlsat;
+    for (let i = 1; i < keyframes.length; i++) {
+        if (keyframes[i][0] >= day) {
+            let k = (day - keyframes[i-1][0]) / (keyframes[i][0] - keyframes[i-1][0]);
+            hue = lerp(keyframes[i-1][1], keyframes[i][1], k);
+            hlhue = hue + 120;
+            sat = 150*lerp(keyframes[i-1][2], keyframes[i][2], k);
+            hlsat = 100*lerp(keyframes[i-1][3], keyframes[i][3], k);
             break;
         }
     }
-    // work out what proportion of the way through we are
-    let length = season2.peakday - season1.peakday;
-    let day_within;
-    let proportion
-    if (length > 0) {
-        day_within = day - season1.peakday;
-        proportion = day_within / length;
-    } else {
-        length = season2.peakday + 366 - season1.peakday;
-        day_within = day - season1.peakday;
-        if (day_within < 0)
-            day_within += 366;
-        proportion = day_within / length;
-    }
+
     let vars = {
-        bg: blend(season1.bg, season2.bg, proportion),
-        fg: blend(season1.fg, season2.fg, proportion),
-        hl: blend(season1.hl, season2.hl, proportion),
+        bg: [hue,sat,96],//blend(season1.bg, season2.bg, proportion),
+        fg: [hue,sat,30],//blend(season1.fg, season2.fg, proportion),
+        hl: [hlhue,hlsat,50],//blend(season1.hl, season2.hl, proportion),
     };
 
-    let css = "/* Seasonal.css by James Stanley\n";
-    css += "day " + day + ": " + proportion + " between " + season1.name + " and " + season2.name + " */\n\n";
+    let css = "/* Seasonal.css by James Stanley */\n";
     css += ":root {\n";
     for (let varname in vars) {
         let col = vars[varname];

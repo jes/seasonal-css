@@ -4,7 +4,11 @@ body {
 }
 a {
     color: var(--seasonal-hl);
+    text-decoration: none;
 }
 a:hover {
-    color: var(--seasonal-fg);
+    color: var(--seasonal-hl);
+}
+hr {
+    border-top: 1px solid var(--seasonal-hl);
 }
