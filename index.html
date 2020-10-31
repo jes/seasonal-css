@@ -107,7 +107,7 @@ name {
     styles. This is useful if you want to use the <name>Seasonal.css</name> colour scheme
     but don't want the default styles.</p>
 
-    <p>Please contribute changes and bug reports on <a href="https://github.cmo/jes/seasonal-css">https://github.com/jes/seasonal-css</a>.</p>
+    <p>Please contribute changes and bug reports on <a href="https://github.com/jes/seasonal-css">https://github.com/jes/seasonal-css</a>.</p>
 
     <hr>
 
@@ -126,7 +126,7 @@ document.getElementById('random-day').onclick = function() {
     date.setMonth(0);
     date.setDate(day);
     let month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    document.getElementById('date').innerHTML = (date.getDate()+1) + " " + month_name[date.getMonth()];
+    document.getElementById('date').innerHTML = date.getDate() + " " + month_name[date.getMonth()];
 };
 </script>
 
