@@ -22,7 +22,7 @@ you can fetch `/seasonal.css?varsonly=1` and you'll get the Seasonal.css variabl
 
 ## Why?
 
-One morning recently, while looking out of my window at the autumnal leaves on the trees, I thought to
+One morning, while looking out of my window at the autumnal leaves on the trees, I thought to
 myself "my, what beautiful colours, I wish I could have these on my website". The idea fermented for a little
 while and I eventually realised that it would be possible for the colours of the website to change
 to match the colours of the seasons.
