@@ -3,6 +3,7 @@
 <head>
 <title>Seasonal.css</title>
 <link id="css" rel="stylesheet" type="text/css" href="seasonal.css">
+<style id="css-vars" type="text/css"></style>
 <style type="text/css">
 html, body {
     margin: 0;
@@ -88,7 +89,7 @@ name {
 
     <button class="btn btn-primary" id="random-day">Try a random day</button> <i><span id="date"></span></i>
 
-    <p>Pick a day:
+    <p>Use the slider to pick a day:
     <input type="range" min="0" max="365" value="0" id="day-range">
 
     <p>Use it yourself:
@@ -122,26 +123,30 @@ name {
     taking inspiration from <a href="https://v6.robweychert.com/blog/2019/12/dynamic-color-javascript-hsl/">Rob Weychert</a>.</p>
 </div>
 
+<script type="text/javascript" src="seasonal.js"></script>
+
 <script type="text/javascript">
 function set_day(day) {
-    document.getElementById('css').href="seasonal.css?day=" + day;
+    document.getElementById('css-vars').innerHTML = seasonal.css(day);
 
     let date = new Date();
     date.setMonth(0);
     date.setDate(day+1);
     let month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     document.getElementById('date').innerHTML = date.getDate() + " " + month_name[date.getMonth()] + " (day=" + day + ")";
+    document.getElementById('day-range').value = day;
 }
 
 document.getElementById('random-day').onclick = function() {
     let day = Math.round(Math.random() * 366);
     set_day(day);
-    document.getElementById('day-range').value = day;
 };
 
-document.getElementById('day-range').onchange = function() {
+document.getElementById('day-range').oninput = function() {
     set_day(parseInt(document.getElementById('day-range').value));
 }
+
+set_day(seasonal.day_of_year());
 </script>
 
 </body>
