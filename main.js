@@ -15,7 +15,7 @@ app.get('/seasonal.css', (req,res) => {
     res.setHeader('Content-Type', 'text/css');
     res.setHeader('Cache-Control', 'nocache');
     res.setHeader('Expires', 'now');
-    res.send(generate_css(req.query.day));
+    res.send(generate_css(req.query.day, req.query.varsonly));
 });
 
 // XXX: race condition while loading up where we might get a request before data is loaded
@@ -66,19 +66,19 @@ function blend(hsl1, hsl2, k) {
 // https://v6.robweychert.com/blog/2019/12/dynamic-color-javascript-hsl/
 let keyframes = [
   //  day    hue     sat      hlsat
-  [   0,     270,    0.08,    0.50  ],
-  [  31,     240,    0.11,    1.00  ],
-  [  60,     210,    0.20,    0.55  ],
-  [  91,     180,    0.22,    0.55  ],
-  [ 120,     150,    0.26,    0.55  ],
-  [ 151,     120,    0.20,    0.55  ],
-  [ 181,      90,    0.40,    0.55  ],
-  [ 212,      60,    0.28,    0.55  ],
-  [ 243,      30,    0.32,    0.70  ],
+  [   0,     270,    0.08,    0.30  ],
+  [  31,     240,    0.11,    0.40  ],
+  [  60,     210,    0.20,    0.45  ],
+  [  91,     180,    0.20,    0.40  ],
+  [ 120,     150,    0.18,    0.40  ],
+  [ 151,     120,    0.15,    0.40  ],
+  [ 181,      90,    0.18,    0.30  ],
+  [ 212,      60,    0.21,    0.45  ],
+  [ 243,      30,    0.28,    0.60  ],
   [ 273,       0,    0.18,    0.45  ],
-  [ 304,     -30,    0.10,    0.35  ],
-  [ 334,     -60,    0.10,    1.00  ],
-  [ 365,     -90,    0.10,    1.00  ]
+  [ 304,     -30,    0.10,    0.25  ],
+  [ 334,     -60,    0.10,    0.30  ],
+  [ 365,     -90,    0.08,    0.30  ]
 ];
 
 // lerp from a to b by k amount. k=0 to 1
@@ -89,7 +89,7 @@ function lerp(a, b, k) {
 
 // TODO: take optional date, latitude, etc. parameters
 // TODO: handle 366-day years
-function generate_css(requested_day) {
+function generate_css(requested_day, varsonly) {
     // select the 2 seasons that this day lies between
     let season1, season2;
     let day = day_of_year();
@@ -103,7 +103,7 @@ function generate_css(requested_day) {
         if (keyframes[i][0] >= day) {
             let k = (day - keyframes[i-1][0]) / (keyframes[i][0] - keyframes[i-1][0]);
             hue = lerp(keyframes[i-1][1], keyframes[i][1], k);
-            hlhue = hue - 30;
+            hlhue = hue - 15;
             sat = 100*lerp(keyframes[i-1][2], keyframes[i][2], k);
             hlsat = 100*lerp(keyframes[i-1][3], keyframes[i][3], k);
             break;
@@ -115,7 +115,7 @@ function generate_css(requested_day) {
         bgdark: [hue,sat,90],//blend(season1.bg, season2.bg, proportion),
         fg: [hue,sat,30],//blend(season1.fg, season2.fg, proportion),
         hl: [hlhue,hlsat,50],//blend(season1.hl, season2.hl, proportion),
-        hldark: [hlhue, hlsat, 20],
+        hldark: [hlhue, hlsat, 35],
     };
 
     let css = "/* Seasonal.css by James Stanley */\n";
@@ -126,7 +126,11 @@ function generate_css(requested_day) {
     }
     css += "}\n\n";
 
-    return css + seasonal_css;
+    if (varsonly) {
+        return css;
+    } else {
+        return css + seasonal_css;
+    }
 }
 
 app.listen(8080, '0.0.0.0');
