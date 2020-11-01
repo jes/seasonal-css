@@ -44,6 +44,11 @@ name {
     font-style: italic;
     color: var(--seasonal-hl);
 }
+table, tr, td {
+    font-family: monospace;
+    font-size: 0.95rem;
+    margin-left: 40px;
+}
 
 /* based on the boootstrap button */
 .btn-primary, .btn-primary:active, .btn-primary:focus {
@@ -84,19 +89,27 @@ name {
 </div></div>
 
 <div class="content">
-    <p><name>Seasonal.css</name> calculates a seasonal colour scheme based on the day
-    of the year.</p>
+    <p><b><name>Seasonal.css</name> supplies a seasonal colour scheme based on the day
+    of the year.</b></p>
 
     <button class="btn btn-primary" id="random-day">Try a random day</button> <i><span id="date"></span></i>
 
     <p>Use the slider to pick a day:
     <input type="range" min="0" max="365" value="0" id="day-range">
 
-    <p>Use it yourself:
     <div class="code">
         &lt;link rel="stylesheet" type="text/css" href="https://seasonal-css.incoherency.co.uk/seasonal.css"&gt;
     </div>
     </p>
+
+    <p>CSS variables:</p>
+    <table>
+    <tr><td style="border: solid 1px var(--seasonal-fg); width: 20px; background-color: var(--seasonal-bg)"></td><td>var(--seasonal-bg)</td></tr>
+    <tr><td style="border: solid 1px var(--seasonal-fg); width: 20px; background-color: var(--seasonal-bgdark)"></td><td>var(--seasonal-bgdark)</td></tr>
+    <tr><td style="border: solid 1px var(--seasonal-fg); width: 20px; background-color: var(--seasonal-fg)"></td><td>var(--seasonal-fg)</td></tr>
+    <tr><td style="border: solid 1px var(--seasonal-fg); width: 20px; background-color: var(--seasonal-hl)"></td><td>var(--seasonal-hl)</td></tr>
+    <tr><td style="border: solid 1px var(--seasonal-fg); width: 20px; background-color: var(--seasonal-hldark)"></td><td>var(--seasonal-hldark)</td></tr>
+    </table>
 
     <p>You get:
     <ul>
@@ -126,10 +139,28 @@ name {
 <script type="text/javascript" src="seasonal.js"></script>
 
 <script type="text/javascript">
+// https://stackoverflow.com/a/12809146
+function set_favicon(colour) {
+    var canvas = document.createElement('canvas');
+    canvas.width = 16;
+    canvas.height = 16;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = colour;
+    ctx.fillRect(0, 0, 16, 16);
+    var link = document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = canvas.toDataURL("image/x-icon");
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+
 function set_day(day) {
+    let vars = seasonal.vars(day);
+    set_favicon(vars.hl);
     document.getElementById('css-vars').innerHTML = seasonal.css(day);
 
     let date = new Date();
+    date.setYear(2020);
     date.setMonth(0);
     date.setDate(day+1);
     let month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
