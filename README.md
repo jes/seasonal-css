@@ -1,4 +1,4 @@
-# seasonal-css
+# Seasonal.css
 
 Seasonal.css supplies a seasonal colour scheme based on the day of the year.
 
