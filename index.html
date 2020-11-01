@@ -10,6 +10,10 @@ html, body {
     font-size: 1.1rem;
     width: 100%;
 }
+h1 {
+    padding-top: 20px;
+    margin-top: 0;
+}
 .code {
     font-family: monospace;
     color: var(--seasonal-hl);
@@ -84,6 +88,9 @@ name {
 
     <button class="btn btn-primary" id="random-day">Try a random day</button> <i><span id="date"></span></i>
 
+    <p>Pick a day:
+    <input type="range" min="0" max="365" value="0" id="day-range">
+
     <p>Use it yourself:
     <div class="code">
         &lt;link rel="stylesheet" type="text/css" href="https://seasonal-css.incoherency.co.uk/seasonal.css"&gt;
@@ -98,9 +105,9 @@ name {
     </ul>
     </p>
 
-    <p>Read the CSS to learn more: <a href="/seasonal.css">/seasonal.css</a>.</p>
+    <p>Read the CSS to learn more: <tt><a href="/seasonal.css">/seasonal.css</a></tt>.</p>
 
-    <p>Fetch the CSS with <tt>?day=123</tt> to request the theme for a specific day of the year.
+    <p>Fetch the CSS with <tt>?day=123</tt> to request the theme for a specific day of the year, ranging from 0 to 365.
     This is useful to test how your page is going to look.</p>
 
     <p>Fetch the CSS with <tt>?varsonly=1</tt> to get the CSS variables without any of the
@@ -116,18 +123,25 @@ name {
 </div>
 
 <script type="text/javascript">
-document.getElementById('random-day').onclick = function() {
-    let day = Math.round(Math.random() * 366);
+function set_day(day) {
     document.getElementById('css').href="seasonal.css?day=" + day;
-
-    console.log(day);
 
     let date = new Date();
     date.setMonth(0);
-    date.setDate(day);
+    date.setDate(day+1);
     let month_name = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    document.getElementById('date').innerHTML = date.getDate() + " " + month_name[date.getMonth()];
+    document.getElementById('date').innerHTML = date.getDate() + " " + month_name[date.getMonth()] + " (day=" + day + ")";
+}
+
+document.getElementById('random-day').onclick = function() {
+    let day = Math.round(Math.random() * 366);
+    set_day(day);
+    document.getElementById('day-range').value = day;
 };
+
+document.getElementById('day-range').onchange = function() {
+    set_day(parseInt(document.getElementById('day-range').value));
+}
 </script>
 
 </body>
