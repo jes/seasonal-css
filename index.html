@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Seasonal.css</title>
+<link id="favicon" rel="shortcut icon" type="image/x-icon">
 <link id="css" rel="stylesheet" type="text/css" href="seasonal.css">
 <style id="css-vars" type="text/css"></style>
 <style type="text/css">
@@ -152,11 +153,7 @@ function set_favicon(colour) {
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = colour;
     ctx.fillRect(0, 0, 16, 16);
-    var link = document.createElement('link');
-    link.type = 'image/x-icon';
-    link.rel = 'shortcut icon';
-    link.href = canvas.toDataURL("image/x-icon");
-    document.getElementsByTagName('head')[0].appendChild(link);
+    document.getElementById('favicon').href = canvas.toDataURL("image/x-icon");
 }
 
 function set_day(day) {
