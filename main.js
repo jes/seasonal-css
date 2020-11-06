@@ -12,7 +12,7 @@ const app = express();
 app.get('/seasonal.css', (req,res) => {
     res.setHeader('Content-Type', 'text/css');
     res.setHeader('Cache-Control', 'nocache');
-    res.setHeader('Expires', 'now');
+    res.setHeader('Expires', '0');
     let css = seasonal.css(req.query.day);
     if (req.query.varsonly) {
         res.send(css);
